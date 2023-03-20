@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const { address, isConnected } = useAccount();
   const profileCreated = false;
-  console.log(isConnected)
+  console.log(isConnected);
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -29,7 +29,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Header />
+        <Header isConnected={isConnected} profileCreated={profileCreated} />
         {!isConnected ? (
           <>
             <h2 className="text-2xl font-semibold">Login using the wallet</h2>
@@ -46,10 +46,8 @@ export default function Home() {
         <input className="" />
         <label>Bio</label>
         <input className="" /> */}
-        {isConnected && !profileCreated && (
-        <CreateProfile />
-        )}
-        <Footer isLoggedIn={isConnected}/>
+        {isConnected && !profileCreated && <CreateProfile />}
+        <Footer isLoggedIn={isConnected} />
       </main>
     </>
   );

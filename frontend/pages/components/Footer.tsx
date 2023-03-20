@@ -1,20 +1,20 @@
 import { useState } from "react";
 export const Footer = (props) => {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchText, setSearchText] = useState('');
-  const  {isLoggedIn } = props;
+  const [searchText, setSearchText] = useState("");
+  const { isLoggedIn } = props;
   const handleSearchClick = () => {
     if (searchOpen) {
       // Perform the search action here
-      console.log('Searching:', searchText);
+      console.log("Searching:", searchText);
     }
     setSearchOpen(!searchOpen);
   };
 
   const handleSearchEnter = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       // Perform the search action here
-      console.log('Searching:', searchText);
+      console.log("Searching:", searchText);
     }
   };
   return (
@@ -28,10 +28,10 @@ export const Footer = (props) => {
             <input
               type="text"
               placeholder="Search"
-              className="border rounded"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               onKeyDown={handleSearchEnter}
+              className="rounded-lg px-2 py-1 bg-white border-black border-2"
             />
             <button className="btn" onClick={() => setSearchOpen(false)}>
               X
@@ -51,4 +51,4 @@ export const Footer = (props) => {
       </div>
     </footer>
   );
-}
+};

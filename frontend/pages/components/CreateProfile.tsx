@@ -33,7 +33,12 @@ export const CreateProfile = () => {
         <div className="container mx-auto px-4 my-8">
           <form onSubmit={handleSubmit} className="flex flex-col">
             {/* Avatar Upload Field */}
-            <input type="file" onChange={handleAvatarUpload} required className="ml-auto mb-5"/>
+            <input
+              type="file"
+              onChange={handleAvatarUpload}
+              required
+              className="ml-auto mb-5"
+            />
 
             {/* Username Field */}
             <input
@@ -63,7 +68,12 @@ export const CreateProfile = () => {
             />
 
             {/* Save Button */}
-            <button type="submit" className=" bg-[#555BFF] h-[55px] rounded-md text-white">Save</button>
+            <button
+              type="submit"
+              className=" bg-[#555BFF] h-[55px] rounded-md text-white"
+            >
+              Save
+            </button>
           </form>
         </div>
       )}
