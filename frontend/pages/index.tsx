@@ -12,6 +12,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const { address, isConnected } = useAccount();
+  const profileCreated = false;
+  console.log(isConnected)
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -45,8 +47,10 @@ export default function Home() {
         <input className="" />
         <label>Bio</label>
         <input className="" /> */}
+        {isConnected && !profileCreated && (
         <CreateProfile />
-        <Footer />
+        )}
+        <Footer isLoggedIn={isConnected}/>
       </main>
     </>
   );
