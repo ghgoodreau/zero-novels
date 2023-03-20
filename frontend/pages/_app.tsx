@@ -66,9 +66,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       {ready ? (
         <WagmiConfig client={wagmiClient}>
-          {/* <Header /> */}
           <Component {...pageProps} />
-          {/* <Footer /> */}
         </WagmiConfig>
       ) : null}
 
