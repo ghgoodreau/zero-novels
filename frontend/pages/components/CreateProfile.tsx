@@ -38,11 +38,11 @@ export const CreateProfile = () => {
             {/* Username Field */}
             <input
               type="text"
-              placeholder="@  username"
+              placeholder="@ Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="mb-5 rounded-lg px-5 py-1 bg-white border-black border-2"
+              className="mb-5 rounded-lg px-2 py-1 bg-white border-black border-2"
             />
 
             {/* Role + Where Field */}
@@ -51,12 +51,12 @@ export const CreateProfile = () => {
               placeholder="Role + Where"
               value={roleWhere}
               onChange={(e) => setRoleWhere(e.target.value)}
-              className="mb-5 rounded-lg px-5 py-1 bg-white border-black border-2"
+              className="mb-5 rounded-lg px-2 py-1 bg-white border-black border-2"
             />
 
             {/* Bio Field */}
             <textarea
-              className="resize-none mb-5 rounded-lg px-5 py-1 bg-white border-black border-2"
+              className="resize-none mb-5 rounded-lg px-2 py-1 bg-white border-black border-2"
               placeholder="Bio"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
