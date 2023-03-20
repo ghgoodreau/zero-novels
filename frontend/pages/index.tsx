@@ -30,7 +30,6 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <Header />
-        {isConnected && <h1 className="mb-5 text-center">connected with {address}</h1>}
         {!isConnected ? (
           <>
             <h2 className="text-2xl font-semibold">Login using the wallet</h2>
