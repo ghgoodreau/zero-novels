@@ -5,6 +5,9 @@ import styles from "@/styles/Home.module.css";
 import { Web3Button, Web3Modal } from "@web3modal/react";
 import { useAccount, useConnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
+import { CreateProfile } from "./components/CreateProfile";
+import { Footer } from "./components/Footer";
+import { Header } from "./components/Header";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -24,6 +27,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+        <Header />
         {isConnected && <h1 className="mb-5 text-center">connected with {address}</h1>}
         {!isConnected ? (
           <>
@@ -35,12 +39,14 @@ export default function Home() {
         ) : null}
         <Web3Button />
         {/* //! just mocking up for now :) */}
-        <label className="mt-5">Username</label>
+        {/* <label className="mt-5">Username</label>
         <input className="" />
         <label>Role + Where</label>
         <input className="" />
         <label>Bio</label>
-        <input className="" />
+        <input className="" /> */}
+        <CreateProfile />
+        <Footer />
       </main>
     </>
   );

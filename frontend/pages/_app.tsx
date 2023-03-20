@@ -5,6 +5,8 @@ import type { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
 import { configureChains, createClient, WagmiConfig, Chain } from 'wagmi'
 import { mainnet, goerli } from 'wagmi/chains'
+import { Footer } from "./components/Footer";
+import { Header } from "./components/Header";
 
 // 1. Get projectID at https://cloud.walletconnect.com
 if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
@@ -64,7 +66,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       {ready ? (
         <WagmiConfig client={wagmiClient}>
+          {/* <Header /> */}
           <Component {...pageProps} />
+          {/* <Footer /> */}
         </WagmiConfig>
       ) : null}
 
