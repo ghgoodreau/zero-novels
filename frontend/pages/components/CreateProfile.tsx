@@ -33,15 +33,16 @@ export const CreateProfile = () => {
         <div className="container mx-auto px-4 my-8">
           <form onSubmit={handleSubmit} className="flex flex-col">
             {/* Avatar Upload Field */}
-            <input type="file" onChange={handleAvatarUpload} required />
+            <input type="file" onChange={handleAvatarUpload} required className="ml-auto mb-5"/>
 
             {/* Username Field */}
             <input
               type="text"
-              placeholder="Username"
+              placeholder="@  username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              className="mb-5 rounded-lg px-5 py-1 bg-white border-black border-2"
             />
 
             {/* Role + Where Field */}
@@ -50,18 +51,19 @@ export const CreateProfile = () => {
               placeholder="Role + Where"
               value={roleWhere}
               onChange={(e) => setRoleWhere(e.target.value)}
+              className="mb-5 rounded-lg px-5 py-1 bg-white border-black border-2"
             />
 
             {/* Bio Field */}
             <textarea
-              className="resize-none"
+              className="resize-none mb-5 rounded-lg px-5 py-1 bg-white border-black border-2"
               placeholder="Bio"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
             />
 
             {/* Save Button */}
-            <button type="submit">Save</button>
+            <button type="submit" className=" bg-[#555BFF] h-[55px] rounded-md text-white">Save</button>
           </form>
         </div>
       )}
