@@ -37,7 +37,7 @@ export const CreateProfile = () => {
               type="file"
               onChange={handleAvatarUpload}
               required
-              className="ml-auto mb-5"
+              className="ml-auto mr-auto pl-32 mb-5"
             />
 
             {/* Username Field */}
