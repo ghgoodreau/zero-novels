@@ -35,6 +35,7 @@ export const CreateProfile = () => {
             {/* Avatar Upload Field */}
             <input
               type="file"
+              // @ts-ignore
               onChange={handleAvatarUpload}
               required
               className="ml-auto mr-auto pl-32 mb-5"
