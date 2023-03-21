@@ -40,13 +40,6 @@ export default function Home() {
           </>
         ) : null}
         <Web3Button />
-        {/* //! just mocking up for now :) */}
-        {/* <label className="mt-5">Username</label>
-        <input className="" />
-        <label>Role + Where</label>
-        <input className="" />
-        <label>Bio</label>
-        <input className="" /> */}
         {isConnected && !profileCreated && <CreateProfile />}
         {isConnected && profileCreated && <UserProfile />}
         <Footer isLoggedIn={isConnected} />
