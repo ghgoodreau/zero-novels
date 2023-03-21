@@ -8,11 +8,12 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { CreateProfile } from "./components/CreateProfile";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import { UserProfile } from "./components/UserProfile";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const { address, isConnected } = useAccount();
-  const profileCreated = false;
+  const profileCreated = true;
   console.log(isConnected);
   const { connect } = useConnect({
     connector: new InjectedConnector(),
@@ -47,6 +48,7 @@ export default function Home() {
         <label>Bio</label>
         <input className="" /> */}
         {isConnected && !profileCreated && <CreateProfile />}
+        {isConnected && profileCreated && <UserProfile />}
         <Footer isLoggedIn={isConnected} />
       </main>
     </>
