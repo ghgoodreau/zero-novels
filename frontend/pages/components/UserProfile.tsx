@@ -12,7 +12,7 @@ export const UserProfile = () => {
     badges: ['2k+ transactions', '100+ NFTs', '10+ POAPs'],
   };
 
-  const toggleTab = (tab) => {
+  const toggleTab = (tab: React.SetStateAction<string>) => {
     setActiveTab(tab);
   };
 
