@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useWeb3Modal } from "@web3modal/react";
+
 export const Footer = (props) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
+const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
   const { isLoggedIn } = props;
   const handleSearchClick = () => {
     if (searchOpen) {
@@ -27,11 +30,11 @@ export const Footer = (props) => {
           <>
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Search User"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               onKeyDown={handleSearchEnter}
-              className="rounded-lg px-2 py-1 bg-white border-black border-2"
+              className="rounded-lg px-2 py-1 bg-white border-black border-2 w-[90%] mx-2 h-[26px]"
             />
             <button className="btn" onClick={() => setSearchOpen(false)}>
               X
@@ -42,7 +45,7 @@ export const Footer = (props) => {
           <>
             <button className="btn">Likes</button>
             {isLoggedIn ? (
-              <button className="btn">Me</button>
+              <button className="btn" onClick={open}>Me</button>
             ) : (
               <button className="btn">Login</button>
             )}
