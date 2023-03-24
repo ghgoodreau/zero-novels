@@ -1,31 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export const UserProfile = () => {
-  const [activeTab, setActiveTab] = useState('nfts');
-  const [selectedTab, setSelectedTab] = useState('nfts');
+  const [selectedTab, setSelectedTab] = useState("nfts");
 
   // @ts-ignore
   const Tab = ({ label, value }) => (
     <button
       className={`py-2 px-4 text-lg font-medium text-gray-500 hover:text-gray-700 ${
-        selectedTab === value ? 'border-b-[4px] border-[#555BFF]' : ''
+        selectedTab === value ? "border-b-[4px] border-[#555BFF]" : ""
       }`}
       onClick={() => setSelectedTab(value)}
     >
       {label}
     </button>
   );
+
+  // mock data for testing purposes. replace with polybase.
   const mockData = {
-    avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Smiley.svg/800px-Smiley.svg.png',
-    username: 'Web3Whiz',
-    bio: 'Professional web3 developer and blockchain enthusiast. Passionate about building secure, distributed applications and exploring the potential of decentralized systems. #blockchain #web3 #webdeveloper',
+    avatar:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Smiley.svg/800px-Smiley.svg.png",
+    username: "Web3Whiz",
+    bio: "Professional web3 developer and blockchain enthusiast. Passionate about building secure, distributed applications and exploring the potential of decentralized systems. #blockchain #web3 #webdeveloper",
     followers: 1500,
     following: 300,
-    badges: ['2k+ transactions', '100+ NFTs', '10+ POAPs'],
-  };
-
-  const toggleTab = (tab: React.SetStateAction<string>) => {
-    setActiveTab(tab);
+    badges: ["2k+ transactions", "100+ NFTs", "10+ POAPs"],
   };
 
   return (
@@ -67,7 +65,7 @@ export const UserProfile = () => {
           <Tab label="Chat" value="chats" />
         </div>
         <div className="mt-4">
-          {selectedTab === 'nfts' ? (
+          {selectedTab === "nfts" ? (
             <div>NFTs list will be displayed here</div>
           ) : (
             <div>Chats list will be displayed here</div>

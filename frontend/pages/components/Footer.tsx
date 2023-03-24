@@ -9,7 +9,7 @@ const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
   const handleSearchClick = () => {
     if (searchOpen) {
       // Perform the search action here
-      console.log("Searching:", searchText);
+      // console.log("Searching:", searchText);
     }
     setSearchOpen(!searchOpen);
   };
@@ -17,7 +17,7 @@ const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
   const handleSearchEnter = (e: { key: string; }) => {
     if (e.key === "Enter") {
       // Perform the search action here
-      console.log("Searching:", searchText);
+      // console.log("Searching:", searchText);
     }
   };
   return (
