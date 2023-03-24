@@ -1,12 +1,17 @@
 import "@/styles/globals.css";
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { Web3Modal } from '@web3modal/react'
+import { Web3Modal, Web3Button } from '@web3modal/react'
 import type { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
 import { configureChains, createClient, WagmiConfig, Chain } from 'wagmi'
 import { mainnet, goerli } from 'wagmi/chains'
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import {
+  ZkConnectButton,
+  ZkConnectResponse,
+} from "@sismo-core/zk-connect-react";
+import axios from "axios";
 
 // 1. Get projectID at https://cloud.walletconnect.com
 if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
@@ -57,16 +62,41 @@ const ethereumClient = new EthereumClient(wagmiClient, chains)
 
 export default function App({ Component, pageProps }: AppProps) {
   const [ready, setReady] = useState(false)
+  const [vaultID, setVaultID] = useState("");
+  const profileCreated = false;
 
   useEffect(() => {
     setReady(true)
   }, [])
 
+  useEffect(() => {
+    console.log(vaultID)
+  }, [vaultID])
   return (
     <>
       {ready ? (
         <WagmiConfig client={wagmiClient}>
-          <Component {...pageProps} />
+        <Header isConnected={vaultID} profileCreated={false} />
+          {!vaultID && (
+          <ZkConnectButton
+            appId={"0xf2646bee3df693a1194a83b0e45d6e97"}
+            onResponse={async (zkConnectResponse: ZkConnectResponse) => {
+              axios
+                .post(`/api/verify`, {
+                  zkConnectResponse: zkConnectResponse,
+                })
+                .then((res) => {
+                  setVaultID(res.data.vaultId);
+                })
+                .catch((err) => {
+                  // if error then the user is not who they say they are!
+                  // vault ID === signed in user. if there's a vault ID and that doesn't exist on our BE, we can create that user.
+                });
+            }}
+          />
+        )}
+          <Component {...pageProps} vaultId={vaultID} />
+        <Footer isLoggedIn={!!vaultID} />
         </WagmiConfig>
       ) : null}
 

@@ -11,6 +11,8 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { UserProfile } from "./components/UserProfile";
 import { ListRecords } from "./components/ListProfiles";
+import UserPage from "./profile/[uid]";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import {
   ZkConnectButton,
   ZkConnectResponse,
@@ -37,7 +39,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Header isConnected={isConnected} profileCreated={profileCreated} />
         {!isConnected ? (
           <>
             <h2 className="text-2xl font-semibold">Login using the wallet</h2>
@@ -46,30 +47,9 @@ export default function Home() {
             </h3>
           </>
         ) : null}
-        <Web3Button />
-        {!vaultID && (
-          <ZkConnectButton
-            appId={"0xf2646bee3df693a1194a83b0e45d6e97"}
-            onResponse={async (zkConnectResponse: ZkConnectResponse) => {
-              axios
-                .post(`/api/verify`, {
-                  zkConnectResponse: zkConnectResponse,
-                })
-                .then((res) => {
-                  setVaultID(res.data.vaultId);
-                })
-                .catch((err) => {
-                  // if error then the user is not who they say they are!
-                  // vault ID === signed in user. if there's a vault ID and that doesn't exist on our BE, we can create that user.
-                });
-            }}
-          />
-        )}
-        <h1>vaultID: {vaultID}</h1>
         {isConnected && !profileCreated && <CreateProfile vaultID={vaultID} />}
         {isConnected && profileCreated && <UserProfile />}
         <ListRecords />
-        <Footer isLoggedIn={isConnected} />
       </main>
     </>
   );

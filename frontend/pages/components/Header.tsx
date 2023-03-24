@@ -1,4 +1,4 @@
-export const Header = (props) => {
+export const Header = (props: { isConnected: any; profileCreated: any; }) => {
   const { isConnected, profileCreated } = props;
   const buildPageTitle = () => {
     if (!isConnected) {
@@ -15,7 +15,6 @@ export const Header = (props) => {
     <header className="sticky top-0 z-50 py-4 text-center mb-20 bg-black text-white w-full">
       <div className="container mx-auto px-4">
         <h1 className="text-xl font-bold">
-          {/* Display the current function of the page */}
           {buildPageTitle()}
         </h1>
       </div>
