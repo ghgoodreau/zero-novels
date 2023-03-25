@@ -9,7 +9,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { CreateProfile } from "./components/CreateProfile";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import { SelfProfile } from "./components/SelfProfile";
+import { UserProfile } from "./components/UserProfile";
 import UserPage from "./profile/[uid]";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
@@ -19,9 +19,8 @@ import {
 import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home(props) {
-  // const { address, isConnected } = useAccount();
-  const { vaultId, userProfile, checkingProfile } = props;
+export default function Home(props: { vaultId: any; userProfile: any; checkingProfile: any; handleLogout: any; }) {
+  const { vaultId, userProfile, checkingProfile, handleLogout } = props;
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -48,8 +47,8 @@ export default function Home(props) {
           </>
         ) : null}
         {checkingProfile && <h2 className="text-2xl font-semibold">Checking profile...</h2>}
-        {isLoggedIn && !userProfile && !checkingProfile && <CreateProfile vaultID={vaultId} />}
-        {isLoggedIn && userProfile && !checkingProfile && <SelfProfile userProfile={userProfile} />}
+        {isLoggedIn && userProfile && !checkingProfile && <UserProfile userProfile={userProfile} vaultID={vaultId} handleLogout={handleLogout} />}
+        {!checkingProfile && isLoggedIn && !userProfile && <CreateProfile vaultID={vaultId} />}
       </main>
     </>
   );

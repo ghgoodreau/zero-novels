@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { CreateProfile } from "./CreateProfile";
 
-export const SelfProfile = (props) => {
+export const UserProfile = (props: { userProfile: any; vaultID: any; handleLogout: any; }) => {
   const [selectedTab, setSelectedTab] = useState("nfts");
-  const { userProfile } = props;
+  const { userProfile, vaultID, handleLogout } = props;
+  const [isEditing, setIsEditing] = useState(false); // Add isEditing state
 
   // @ts-ignore
   const Tab = ({ label, value }) => (
@@ -27,6 +29,25 @@ export const SelfProfile = (props) => {
     badges: ["2k+ transactions", "100+ NFTs", "10+ POAPs"],
   };
 
+  const onCancelEdit = () => {
+    setIsEditing(false);
+  };
+
+  if (isEditing) {
+    return (
+      <CreateProfile
+        vaultID={vaultID}
+        editMode={true}
+        userProfile={userProfile}
+        onCancelEdit={onCancelEdit}
+      />
+    );
+  }
+
+  console.log(userProfile)
+  console.log(vaultID)
+  console.log(userProfile.id === vaultID)
+  const isSelf = userProfile.id === vaultID;
   return (
     <div className="flex flex-col items-center p-4 px-8">
       <img
@@ -35,22 +56,40 @@ export const SelfProfile = (props) => {
         className="w-32 h-32 rounded-full mb-4 self-start"
       />
       <div className="flex justify-between w-full">
-        <h1 className="font-bold text-xl">@{userProfile.name}</h1>
-        <div>
+        <h1 className="font-bold text-xl">@{userProfile?.name}</h1>
+        {userProfile?.ownProfile || isSelf ? (
+          <div>
+          <button
+            className="bg-[#555BFF] text-white px-2 py-1 rounded mr-2"
+            onClick={() => setIsEditing(true)}
+          >
+            Edit
+          </button>
+          <button
+            className="bg-[#555BFF] text-white px-2 py-1 rounded"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+        ) : (
+          <div>
           <button className="bg-[#555BFF] text-white px-2 py-1 rounded mr-2">
             Like
           </button>
           <button className="bg-[#555BFF] text-white px-2 py-1 rounded">
             Chat
           </button>
-        </div>
+        </div> 
+        )}
       </div>
       <p className="text-gray-600 mt-2">{userProfile.bio}</p>
       <div className="flex justify-start w-full mt-2">
-        <p className="mr-5">Followers: {mockData.followers}</p>
-        <p>Following: {mockData.following}</p>
+        <p className="mr-5">Followers: Not implemented yet</p>
+        <p>Following: Not implemented yet</p>
       </div>
       <div className="mt-4 self-start">
+        <h1>TODO badges</h1>
         {mockData.badges.map((badge, index) => (
           <span
             key={index}

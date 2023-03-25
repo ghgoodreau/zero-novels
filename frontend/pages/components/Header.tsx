@@ -1,14 +1,15 @@
-export const Header = (props: { isConnected: any; profileCreated: any; }) => {
+export const Header = (props: { isConnected?: any; profileCreated?: any; vaultId?: any; userProfile?: any; checkingProfile?: any; }) => {
   const { isConnected, profileCreated } = props;
+  const { vaultId, userProfile, checkingProfile } = props;
   const buildPageTitle = () => {
-    if (!isConnected) {
+    if (!vaultId) {
       return "Login";
     }
-    if (isConnected && !profileCreated) {
+    if (vaultId&& !userProfile) {
       return "Create Profile";
     }
-    if (isConnected && profileCreated) {
-      return "Edit Profile";
+    if (vaultId && userProfile) {
+      return "Profile";
     }
   }
   return (

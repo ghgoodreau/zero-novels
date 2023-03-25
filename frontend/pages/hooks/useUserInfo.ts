@@ -21,6 +21,7 @@ async function fetchOwnUserInfo(uid: string): Promise<UserProfile | null> {
     return null;
   }
 
+  records[0].data.ownProfile = true; // Mark the profile as the user's own profile
   return records[0].data; // Access the userInfo from the API response
 }
 
@@ -37,6 +38,7 @@ export function useUserInfo(vaultID: string | null): [UserProfile | null, boolea
           const profile = await fetchOwnUserInfo(vaultID);
           setUserProfile(profile);
         } catch (err) {
+          // @ts-ignore
           setError(err);
         } finally {
           setLoading(false);

@@ -13,8 +13,8 @@ import {
 } from "@sismo-core/zk-connect-react";
 import axios from "axios";
 import { useUserInfo } from "./hooks/useUserInfo";
+import { useRouter } from 'next/router'
 
-// 1. Get projectID at https://cloud.walletconnect.com
 if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
   throw new Error('You need to provide NEXT_PUBLIC_PROJECT_ID env variable')
 }
@@ -63,20 +63,41 @@ const ethereumClient = new EthereumClient(wagmiClient, chains)
 
 export default function App({ Component, pageProps }: AppProps) {
   const [ready, setReady] = useState(false)
-  const [vaultID, setVaultID] = useState("");
-  const [userProfile, loading, error] = useUserInfo(vaultID);
+  const [vaultID, setVaultID] = useState(''); 
+  const router = useRouter()
   const profileCreated = false;
 
   useEffect(() => {
     setReady(true)
   }, [])
 
-  console.log(loading)
+  useEffect(() => {
+    const storedVaultID = localStorage.getItem('vaultID');
+    if (storedVaultID) {
+      setVaultID(storedVaultID);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (vaultID) {
+      localStorage.setItem('vaultID', vaultID);
+    } else {
+      localStorage.removeItem('vaultID');
+    }
+  }, [vaultID]);
+
+  const handleLogout = () => {
+    setVaultID('');
+    localStorage.removeItem('vaultID');
+  };
+  
+
+  const [userProfile, loading, error] = useUserInfo(vaultID);
   return (
     <>
       {ready ? (
         <WagmiConfig client={wagmiClient}>
-        <Header isConnected={vaultID} profileCreated={false} />
+        <Header isConnected={vaultID} profileCreated={false} vaultId={vaultID} userProfile={userProfile} />
           {!vaultID && (
           <ZkConnectButton
             appId={"0xf2646bee3df693a1194a83b0e45d6e97"}
@@ -87,15 +108,14 @@ export default function App({ Component, pageProps }: AppProps) {
                 })
                 .then((res) => {
                   setVaultID(res.data.vaultId);
+                  router.push("/"); // removes the zkp from the path.
                 })
                 .catch((err) => {
-                  // if error then the user is not who they say they are!
-                  // vault ID === signed in user. if there's a vault ID and that doesn't exist on our BE, we can create that user.
                 });
             }}
           />
         )}
-          <Component {...pageProps} vaultId={vaultID} userProfile={userProfile} checkingProfile={loading} />
+          <Component {...pageProps} vaultId={vaultID} userProfile={userProfile} checkingProfile={loading} handleLogout={handleLogout} />
         <Footer isLoggedIn={!!vaultID} />
         </WagmiConfig>
       ) : null}

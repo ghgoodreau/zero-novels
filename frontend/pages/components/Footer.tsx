@@ -1,28 +1,51 @@
-import { useState } from "react";
-import { useWeb3Modal } from "@web3modal/react";
+// components/Footer.tsx
+import React, { useState } from 'react';
+import { useWeb3Modal } from '@web3modal/react';
+import { useUserSearch, User } from '../hooks/useUserSearch';
+import { useRouter } from 'next/router'
 
-export const Footer = (props: { isLoggedIn: boolean; }) => {
+export const Footer = (props: { isLoggedIn: boolean }) => {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
-const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
+  const [searchText, setSearchText] = useState('');
+  const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
   const { isLoggedIn } = props;
+  const users = useUserSearch(searchText);
+
   const handleSearchClick = () => {
-    if (searchOpen) {
-      // Perform the search action here
-      // console.log("Searching:", searchText);
-    }
     setSearchOpen(!searchOpen);
   };
 
-  const handleSearchEnter = (e: { key: string; }) => {
-    if (e.key === "Enter") {
+  const handleSearchEnter = (e: { key: string }) => {
+    if (e.key === 'Enter') {
       // Perform the search action here
-      // console.log("Searching:", searchText);
+      // console.log('Searching:', searchText);
     }
   };
+
+  const renderSearchResults = (users: User[]) => {
+    return (
+      <div
+        className={`absolute bottom-[100%] w-full bg-white shadow-lg p-4 ${
+          !searchOpen && 'hidden'
+        }`}
+      >
+        <ul className="max-h-[200px] overflow-y-scroll">
+          {users.map((user, index) => (
+            <li key={index} className="p-1" onClick={() => router.push(`/profile/${user.vaultId}`)}>
+              {/* <a href={`/profile/${user.vaultId}`}>{user.name}</a> */}
+              {user.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const router = useRouter()
+
   return (
     <footer className="fixed bottom-0 w-full py-4 bg-white border-t">
-      <div className="container mx-auto px-4 flex justify-around">
+      <div className="container mx-auto px-4 flex justify-around relative">
         <button className="btn" onClick={handleSearchClick}>
           Search
         </button>
@@ -39,15 +62,20 @@ const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
             <button className="btn" onClick={() => setSearchOpen(false)}>
               X
             </button>
+            {renderSearchResults(users)}
           </>
         )}
         {!searchOpen && (
           <>
             <button className="btn">Likes</button>
             {isLoggedIn ? (
-              <button className="btn" onClick={() => open()}>Me</button>
+              <button className="btn" onClick={() => router.push("/") }>
+                Me
+              </button>
             ) : (
-              <button className="btn" onClick={() => open()}>Login</button>
+              <button className="btn" onClick={() => open()}>
+                Login
+              </button>
             )}
           </>
         )}
