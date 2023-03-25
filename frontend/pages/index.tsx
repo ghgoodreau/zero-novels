@@ -9,10 +9,9 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { CreateProfile } from "./components/CreateProfile";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
-import { UserProfile } from "./components/UserProfile";
-import { ListRecords } from "./components/ListProfiles";
+import { SelfProfile } from "./components/SelfProfile";
 import UserPage from "./profile/[uid]";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   ZkConnectButton,
   ZkConnectResponse,
@@ -20,13 +19,14 @@ import {
 import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
-  const { address, isConnected } = useAccount();
-  const [vaultID, setVaultID] = useState("");
-  const profileCreated = false;
+export default function Home(props) {
+  // const { address, isConnected } = useAccount();
+  const { vaultId, userProfile, checkingProfile } = props;
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
+  const isLoggedIn = !!vaultId;
+  console.log(userProfile)
   return (
     <>
       <Head>
@@ -39,17 +39,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        {!isConnected ? (
+        {!isLoggedIn ? (
           <>
-            <h2 className="text-2xl font-semibold">Login using the wallet</h2>
+            <h2 className="text-2xl font-semibold">Login above using Sismo</h2>
             <h3 className="text-xl mb-10 text-center">
               to create or manage your account!
             </h3>
           </>
         ) : null}
-        {isConnected && !profileCreated && <CreateProfile vaultID={vaultID} />}
-        {isConnected && profileCreated && <UserProfile />}
-        <ListRecords />
+        {checkingProfile && <h2 className="text-2xl font-semibold">Checking profile...</h2>}
+        {isLoggedIn && !userProfile && !checkingProfile && <CreateProfile vaultID={vaultId} />}
+        {isLoggedIn && userProfile && !checkingProfile && <SelfProfile userProfile={userProfile} />}
       </main>
     </>
   );

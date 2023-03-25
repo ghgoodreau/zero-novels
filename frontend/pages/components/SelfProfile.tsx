@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
-export const UserProfile = () => {
+export const SelfProfile = (props) => {
   const [selectedTab, setSelectedTab] = useState("nfts");
+  const { userProfile } = props;
 
   // @ts-ignore
   const Tab = ({ label, value }) => (
@@ -34,7 +35,7 @@ export const UserProfile = () => {
         className="w-32 h-32 rounded-full mb-4 self-start"
       />
       <div className="flex justify-between w-full">
-        <h1 className="font-bold text-xl">@{mockData.username}</h1>
+        <h1 className="font-bold text-xl">@{userProfile.name}</h1>
         <div>
           <button className="bg-[#555BFF] text-white px-2 py-1 rounded mr-2">
             Like
@@ -44,7 +45,7 @@ export const UserProfile = () => {
           </button>
         </div>
       </div>
-      <p className="text-gray-600 mt-2">{mockData.bio}</p>
+      <p className="text-gray-600 mt-2">{userProfile.bio}</p>
       <div className="flex justify-start w-full mt-2">
         <p className="mr-5">Followers: {mockData.followers}</p>
         <p>Following: {mockData.following}</p>

@@ -12,6 +12,7 @@ import {
   ZkConnectResponse,
 } from "@sismo-core/zk-connect-react";
 import axios from "axios";
+import { useUserInfo } from "./hooks/useUserInfo";
 
 // 1. Get projectID at https://cloud.walletconnect.com
 if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
@@ -63,15 +64,14 @@ const ethereumClient = new EthereumClient(wagmiClient, chains)
 export default function App({ Component, pageProps }: AppProps) {
   const [ready, setReady] = useState(false)
   const [vaultID, setVaultID] = useState("");
+  const [userProfile, loading, error] = useUserInfo(vaultID);
   const profileCreated = false;
 
   useEffect(() => {
     setReady(true)
   }, [])
 
-  useEffect(() => {
-    console.log(vaultID)
-  }, [vaultID])
+  console.log(loading)
   return (
     <>
       {ready ? (
@@ -95,7 +95,7 @@ export default function App({ Component, pageProps }: AppProps) {
             }}
           />
         )}
-          <Component {...pageProps} vaultId={vaultID} />
+          <Component {...pageProps} vaultId={vaultID} userProfile={userProfile} checkingProfile={loading} />
         <Footer isLoggedIn={!!vaultID} />
         </WagmiConfig>
       ) : null}
