@@ -25,7 +25,6 @@ export default function Home(props: { vaultId: any; userProfile: any; checkingPr
     connector: new InjectedConnector(),
   });
   const isLoggedIn = !!vaultId;
-  console.log(userProfile)
   return (
     <>
       <Head>

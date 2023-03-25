@@ -43,11 +43,8 @@ export const UserProfile = (props: { userProfile: any; vaultID: any; handleLogou
       />
     );
   }
-
-  console.log(userProfile)
-  console.log(vaultID)
-  console.log(userProfile.id === vaultID)
   const isSelf = userProfile.id === vaultID;
+  
   return (
     <div className="flex flex-col items-center p-4 px-8">
       <img
