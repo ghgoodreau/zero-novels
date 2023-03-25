@@ -4,15 +4,22 @@ import { useWeb3Modal } from "@web3modal/react";
 import { useUserSearch, User } from "../hooks/useUserSearch";
 import { useRouter } from "next/router";
 
-export const Footer = (props: { isLoggedIn: boolean }) => {
+export const Footer = (props: { isLoggedIn: boolean; userProfile: any }) => {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [likesOpen, setLikesOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
-  const { isLoggedIn } = props;
+  const { isLoggedIn, userProfile } = props;
   const users = useUserSearch(searchText);
 
   const handleSearchClick = () => {
     setSearchOpen(!searchOpen);
+    setLikesOpen(false);
+  };
+
+  const handleLikesClick = () => {
+    setLikesOpen(!likesOpen);
+    setSearchOpen(false);
   };
 
   const handleSearchEnter = (e: { key: string }) => {
@@ -47,6 +54,36 @@ export const Footer = (props: { isLoggedIn: boolean }) => {
     );
   };
 
+  const renderLikedProfiles = () => {
+    const likedProfiles = userProfile?.likedProfiles || [];
+    return (
+      <div
+        className={`absolute bottom-[100%] w-full bg-white shadow-lg p-4 ${
+          !likesOpen && "hidden"
+        }`}
+      >
+        {likedProfiles.length === 0 ? (
+          <div>No likes found</div>
+        ) : (
+          <ul className="max-h-[200px] overflow-y-scroll">
+            {likedProfiles.map((profile, index) => (
+              <li
+                key={index}
+                className="p-1"
+                onClick={() => {
+                  router.push(`/profile/${profile}`);
+                  setLikesOpen(false);
+                }}
+              >
+                {profile}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
+
   const router = useRouter();
 
   return (
@@ -73,7 +110,10 @@ export const Footer = (props: { isLoggedIn: boolean }) => {
         )}
         {!searchOpen && (
           <>
-            <button className="btn">Likes</button>
+            <button className="btn" onClick={handleLikesClick}>
+              Likes
+            </button>
+            {renderLikedProfiles()}
             {isLoggedIn ? (
               <button className="btn" onClick={() => router.push("/")}>
                 Me

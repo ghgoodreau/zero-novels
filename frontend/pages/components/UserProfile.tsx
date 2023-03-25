@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { CreateProfile } from "./CreateProfile";
+import useLikeProfile from "../hooks/useLikeProfile";
 
-export const UserProfile = (props: { userProfile: any; vaultID: any; handleLogout: any; }) => {
+export const UserProfile = (props: {
+  userProfile: any;
+  vaultID: any;
+  handleLogout: any;
+}) => {
   const [selectedTab, setSelectedTab] = useState("nfts");
   const { userProfile, vaultID, handleLogout } = props;
   const [isEditing, setIsEditing] = useState(false); // Add isEditing state
+  const { liked, loading, likeProfile } = useLikeProfile(vaultID);
 
   // @ts-ignore
   const Tab = ({ label, value }) => (
@@ -44,7 +50,7 @@ export const UserProfile = (props: { userProfile: any; vaultID: any; handleLogou
     );
   }
   const isSelf = userProfile.id === vaultID;
-  
+
   return (
     <div className="flex flex-col items-center p-4 px-8">
       <img
@@ -56,28 +62,34 @@ export const UserProfile = (props: { userProfile: any; vaultID: any; handleLogou
         <h1 className="font-bold text-xl">@{userProfile?.name}</h1>
         {userProfile?.ownProfile || isSelf ? (
           <div>
-          <button
-            className="bg-[#555BFF] text-white px-2 py-1 rounded mr-2"
-            onClick={() => setIsEditing(true)}
-          >
-            Edit
-          </button>
-          <button
-            className="bg-[#555BFF] text-white px-2 py-1 rounded"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
+            <button
+              className="bg-[#555BFF] text-white px-2 py-1 rounded mr-2"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit
+            </button>
+            <button
+              className="bg-[#555BFF] text-white px-2 py-1 rounded"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          </div>
         ) : (
           <div>
-          <button className="bg-[#555BFF] text-white px-2 py-1 rounded mr-2">
-            Like
-          </button>
-          <button className="bg-[#555BFF] text-white px-2 py-1 rounded">
-            Chat
-          </button>
-        </div> 
+            <button
+              className={`bg-[#555BFF] text-white px-2 py-1 rounded mr-2 ${
+                loading ? "opacity-50" : ""
+              }`}
+              onClick={() => likeProfile(userProfile.vaultId)}
+              disabled={liked || loading}
+            >
+              {liked ? "Liked" : "Like"}
+            </button>
+            <button className="bg-[#555BFF] text-white px-2 py-1 rounded">
+              Chat
+            </button>
+          </div>
         )}
       </div>
       <p className="text-gray-600 mt-2">{userProfile.bio}</p>

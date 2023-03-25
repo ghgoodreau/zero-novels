@@ -116,7 +116,7 @@ export default function App({ Component, pageProps }: AppProps) {
           />
         )}
           <Component {...pageProps} vaultId={vaultID} userProfile={userProfile} checkingProfile={loading} handleLogout={handleLogout} />
-        <Footer isLoggedIn={!!vaultID} />
+        <Footer isLoggedIn={!!vaultID} userProfile={userProfile} />
         </WagmiConfig>
       ) : null}
 
