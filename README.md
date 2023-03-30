@@ -1,6 +1,14 @@
 # Zero-Novels
 Scaling ETH 2023 hackathon project.
-Shareable privacy-preserving profiles on Scroll zkEVM.
+Shareable privacy-preserving profiles. Chat contract on Scroll zkEVM.
+Utilizing Sismo and Polybase for login and profile storage.
+
+To try,
+
+```
+cd frontend
+npm run dev
+``` 
 
 ## Links
 
